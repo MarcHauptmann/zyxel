@@ -13,31 +13,38 @@ class Zyxel:
         self.connection = telnetlib.Telnet(host)
 
         # Passwort eingeben
+        # Enter Password
         self.password(pw)
 
         # Menü: System Maintainance
+        # Menu: System Maintenance
         self.select("24")
 
         # Menü: Diagnostic
+        # Menu: Diagnostic
         self.select("8")
 
         self.connection.read_until("> ")
-
+        
+        # Password
     def password(self, password):
         self.connection.read_until("Password:")
         self.connection.write(password + "\n")
-
+        
     def select(self, s):
         self.connection.read_until("Number:")
         self.connection.write(s + "\n")
-
+        
+        # Reboot
     def reboot(self):
         self.connection.write("sys reboot\n")
         self.disconnect()
 
+        # Disconnect
     def disconnect(self):
         self.connection.close()
-
+        
+        # Read Logs
     def logs(self):
         self.connection.write("sys logs display\n")
         return self.connection.read_until("> ")
